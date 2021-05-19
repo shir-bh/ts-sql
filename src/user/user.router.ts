@@ -2,17 +2,24 @@
   if there is an error thrown in the DB, asyncMiddleware
   will pass it to next() and express will handle the error */
 // import connection from "../db/db.connection";
-import get_connection from "../db/db.connection";
+// import get_connection from "../db/db.connection";
 import raw from "../middleware/route.async.wrapper";
 // import { Connection } from "mysql2/promise";
 // import user_model from "./user.model.mjs";
+import { connect } from "../db/db.connection";
+
 import express from "express";
 import { Request, Response } from "express";
 import { schema_insert, schema_update } from "./validate.model";
 
-const connection = get_connection();
-const router = express.Router();
+// const connection = get_connection();
 
+let connection: any;
+(async () => {
+  connection = await connect();
+})();
+
+const router = express.Router();
 // parse json req.body on post routes
 router.use(express.json());
 
