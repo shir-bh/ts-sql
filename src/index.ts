@@ -6,7 +6,8 @@ import {getEnv} from "./helper/help";
 // import log from '@ajar/marker'
 import cors from 'cors'
 
-const PORT=3307;
+// const PORT=parseInt(getEnv("PORT"));
+const PORT=3030;
 const app = express();
 
 // middleware
