@@ -1,5 +1,5 @@
 // import mysql from "mysql2/promise";
-import mysql , { Connection } from "mysql2/promise";
+import mysql, { Connection } from "mysql2/promise";
 
 const env = (key: string): string => {
   const value = process.env[key];
@@ -8,23 +8,22 @@ const env = (key: string): string => {
 };
 let connection: Connection;
 let getConnection = () => {
- console.log("here");
-  if(connection){
+  if (connection) {
     return connection;
   }
-  (async ()  => {
+  (async () => {
     connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      port: 3307,
-      database: process.env.DB_NAME,
-      user: process.env.DB_USER_NAME,
-      password: process.env.DB_USER_PASSWORD,
-  });
-  
-  await connection.connect();
-  
-})();
-return connection
-}
+      // host: process.env.DB_HOST,
+      host: env("DB_HOST"),
+      port: Number(env("DB_PORT")),
+      database: env("DB_NAME"),
+      user: env("DB_USER_NAME"),
+      password: env("DB_USER_PASSWORD"),
+    });
 
-export default getConnection();
+    await connection.connect();
+  })();
+  return connection;
+};
+
+export default getConnection;
